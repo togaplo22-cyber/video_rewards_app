@@ -1,20 +1,21 @@
 
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
 from datetime import datetime
 
 app = Flask(__name__)
 
-# Sample leaderboard data
-leaderboard = [
-    {"user_id": "user123", "referrals": 15},
-    {"user_id": "user456", "referrals": 10},
-    {"user_id": "user789", "referrals": 7}
-]
+@app.route("/", methods=["GET"])
+def home():
+    return "<h1>EarnToWatch Backend is Running</h1>"
 
 @app.route("/api/referral-leaderboard", methods=["GET"])
-def get_leaderboard():
-    sorted_board = sorted(leaderboard, key=lambda x: x["referrals"], reverse=True)
-    return jsonify(sorted_board)
+def referral_leaderboard():
+    leaderboard = [
+        {"user_id": "user123", "referrals": 12},
+        {"user_id": "user456", "referrals": 9},
+        {"user_id": "user789", "referrals": 5}
+    ]
+    return jsonify(leaderboard)
 
 @app.route("/api/request-cashout", methods=["POST"])
 def request_cashout():
@@ -23,10 +24,11 @@ def request_cashout():
     amount = data.get("amount")
     timestamp = data.get("timestamp")
 
-    if amount < 100:
-        return jsonify({"success": False, "message": "Minimum cashout is ₱100"})
+    if not user_id or not amount:
+        return jsonify({"success": False, "message": "Missing user_id or amount"}), 400
 
-    return jsonify({"success": True, "message": "Cashout request accepted", "user_id": user_id, "amount": amount})
+    # Simulate success response
+    return jsonify({"success": True, "message": "Cashout request submitted", "new_balance": 0})
 
 if __name__ == "__main__":
     app.run(debug=True)

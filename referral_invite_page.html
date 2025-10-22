@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,36 +6,24 @@
   <title>Referral Invite Page</title>
 </head>
 <body>
-  <h2>Invite Friends to EarnToWatch</h2>
+  <h1>Invite Friends to EarnToWatch</h1>
+  <p>Your referral link:</p>
   <input type="text" id="refLink" value="https://earntowatch.com/ref/juan123" readonly>
-  <button onclick="copyReferral()">Copy Referral Link</button>
+  <button onclick="copyReferral()">Copy Link</button>
 
-  <h3>Share on Social Media</h3>
+  <h2>Share on Social Media</h2>
   <a href="https://www.facebook.com/sharer/sharer.php?u=https://earntowatch.com/ref/juan123" target="_blank">Share on Facebook</a><br>
-  <a href="https://twitter.com/intent/tweet?text=Join%20EarnToWatch%20and%20earn%20money%20watching%20videos!%20https://earntowatch.com/ref/juan123" target="_blank">Share on Twitter</a><br>
-  <a href="https://api.whatsapp.com/send?text=Join%20EarnToWatch%20and%20earn%20money%20watching%20videos!%20https://earntowatch.com/ref/juan123" target="_blank">Share on WhatsApp</a>
-
-  <h3>Referral Leaderboard</h3>
-  <ul id="leaderboard"></ul>
+  <a href="https://twitter.com/intent/tweet?text=Join%20EarnToWatch%20and%20start%20earning!%20https://earntowatch.com/ref/juan123" target="_blank">Share on Twitter</a><br>
+  <a href="https://api.whatsapp.com/send?text=Join%20EarnToWatch%20and%20start%20earning!%20https://earntowatch.com/ref/juan123" target="_blank">Share on WhatsApp</a>
 
   <script>
     function copyReferral() {
       const refInput = document.getElementById("refLink");
       refInput.select();
+      refInput.setSelectionRange(0, 99999);
       document.execCommand("copy");
       alert("Referral link copied!");
     }
-
-    fetch("/api/referral-leaderboard")
-      .then(res => res.json())
-      .then(data => {
-        const list = document.getElementById("leaderboard");
-        data.forEach(user => {
-          const item = document.createElement("li");
-          item.textContent = `${user.user_id}: ${user.referrals} referrals`;
-          list.appendChild(item);
-        });
-      });
   </script>
 </body>
 </html>
